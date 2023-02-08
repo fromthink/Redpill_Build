@@ -55,6 +55,7 @@ jobs:
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
+          sed -i 's/f38329b8cdc5824a8f01fb1e377d3b1b6bd23da365142a01e2158beff5b8a424/a222d37f369d71042057ccb592f40c7c81e9b988a95d69fa166c7c2a611da99c/g' ./config/DS3622xs+/7.0.1-42218/config.json
           sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds3622xsp_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
