@@ -57,6 +57,7 @@ jobs:
           cd /home/runner/redpill-load
           sed -i 's/f38329b8cdc5824a8f01fb1e377d3b1b6bd23da365142a01e2158beff5b8a424/a222d37f369d71042057ccb592f40c7c81e9b988a95d69fa166c7c2a611da99c/g' ./config/DS3622xs+/7.0.1-42218/config.json
           sed -i 's/06964b68e5ccdedd4363dff3986f99686d3c9cb5225e8e4c3d840a1d9cd1330b/d6059bcd7160ed1f775a9323599ac8860b60ada32f0a4f3e5ca166c15a17784e/g' ./config/DS3622xs+/7.0.1-42218/config.json
+          sed -i 's/a95d4ab06189460f3b3d13a33e421887b5f3ea09a10535ae0d4c92beb7ff631d/11ebadba5d831ad6f31258ab317ed1f7cbfe18243413f9f81291b894b5f7a591/g' ./config/DS3622xs+/7.0.1-42218/config.json
           sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds3622xsp_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
