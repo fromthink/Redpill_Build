@@ -74,7 +74,7 @@ jobs:
       - name: 删除旧的 Release 项目
         uses: dev-drprasad/delete-older-releases@v0.2.0
         with:
-          repo: Online24Hours/Redpill_Build
+          repo: Mr-jiangrj/Redpill_Build
           keep_latest: 1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
