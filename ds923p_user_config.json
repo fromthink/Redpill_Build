@@ -8,6 +8,10 @@
 	"mac3": "02113230550C",
 	"mac4": "02113230550D",
 	"mac5": "02113230550E",
+	"syno_port_thaw": "1",
+	"DiskIdxMap": "00",
+	"SataPortMap": "1",
+	"SasIdxMap": "0",
 	"netif_num": 7
     },
     "synoinfo": {
