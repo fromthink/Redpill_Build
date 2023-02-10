@@ -56,6 +56,7 @@ jobs:
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
+          sed -i 's/a403809ab2cd476c944fdfa18cae2c2833e4af36230fa63f0cdee31a92bebba2/a662d11999c266dfa86c54f7ba01045c6644c191124195a22d056d618790dffe/g' ./config/DS918+/7.0.1-42218/config.json
           sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds918p_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
