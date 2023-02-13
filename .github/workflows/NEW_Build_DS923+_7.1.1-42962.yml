@@ -56,7 +56,7 @@ jobs:
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
-          sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds9230p_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
+          sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds923p_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
         uses: softprops/action-gh-release@v1
