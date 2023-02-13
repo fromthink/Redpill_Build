@@ -1,0 +1,22 @@
+{
+    "extra_cmdline": {
+        "pid": "0x0001",
+        "vid": "0x46f4",
+        "sn": "2040SBRDDF1TV",
+        "mac1": "0011323E3871",
+	"mac2": "0011323E3872",
+	"mac3": "0011323E3873",
+	"mac4": "0011323E3874",
+	"syno_port_thaw": "1",
+	"DiskIdxMap": "00",
+	"SataPortMap": "1",
+	"SasIdxMap": "0",
+	"netif_num": 7
+    },
+    "synoinfo": {
+	"internalportcfg": "0xffff",
+	"maxlanport": "7"
+    },
+    "ramdisk_copy": {},
+    "extensions": []
+}
