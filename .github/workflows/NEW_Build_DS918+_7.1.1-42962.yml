@@ -1,0 +1,88 @@
+name: Build DS918+ 7.0.1-42218
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      clean_cache:
+        description: 'Clear caches'
+        required: false
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 编译 "${{matrix.platform}} ${{matrix.version}}"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: DS918+
+            version: 7.0.1-42218
+
+    steps:
+      - name: 检出项目文件
+        uses: actions/checkout@v3
+        
+      - name: 获取当前时间
+        id: date
+        run: echo "::set-output name=today::$(date +'%Y-%m-%d')"
+        
+      - name: 获取项目描述
+        id: desc
+        run: |
+          wget https://raw.githubusercontent.com/Mr-jiangrj/Redpill_Build/main/README.MD -O /home/runner/desc.txt
+          echo "::set-output name=description::$(cat /home/runner/desc.txt)"
+        
+      - name: 环境准备
+        run: |
+          sudo apt update
+          sudo apt-get install -y curl bspatch jq git
+          git clone https://github.com/jumkey/redpill-load.git /home/runner/redpill-load
+          wget https://raw.githubusercontent.com/Mr-jiangrj/Redpill_Build/main/ds918p_user_config.json -O /home/runner/redpill-load/ds918p_user_config.json
+          wget https://raw.githubusercontent.com/pocopico/rp-ext/main/redpill/releases/redpill-4.4.180plus.tgz
+          tar zxvf redpill-4.4.180plus.tgz -C ./
+          mv ./redpill.ko /home/runner/redpill-load/ext/rp-lkm/redpill-linux-v4.4.180+.ko
+          
+      - name: 添加扩展驱动
+        run: |
+          cd /home/runner/redpill-load 
+          ./ext-manager.sh add 'https://github.com/jumkey/redpill-load/raw/develop/redpill-misc/rpext-index.json'
+          ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/develop/redpill-acpid/rpext-index.json'
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/main/dtb-patch/rpext-index.json'
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
+          
+      - name: 编译引导
+        run: |
+          cd /home/runner/redpill-load
+          sed -i 's/a403809ab2cd476c944fdfa18cae2c2833e4af36230fa63f0cdee31a92bebba2/a662d11999c266dfa86c54f7ba01045c6644c191124195a22d056d618790dffe/g' ./config/DS918+/7.0.1-42218/config.json
+          sed -i 's/338ba514066da01d0c1f770418916b9b96f5355d88a7b55b398d2726db591fdb/7311b04f7462847f529cf966c7b332097354692485c8157643d89441e2a81cd0/g' ./config/DS918+/7.0.1-42218/config.json
+          sed -i 's/4b7a7a271a3b2158d9193a4f0e75c59590949ad7b4e26d546f46cc2ee8504d51/d27320b536da0ac82d7959e0492180b3a25ef78a3997f65cc4ccddc426b921bd/g' ./config/DS918+/7.0.1-42218/config.json
+          sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds918p_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
+          
+      - name: 上传引导镜像到 Github Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: Redpill-load
+          name: ${{matrix.version}} Build ${{steps.date.outputs.today}}
+          body: ${{steps.desc.outputs.description}}
+          draft: false
+          prerelease: false
+          files: |
+            /home/runner/redpill-load/images/*.img
+            
+#      - name: 删除旧的 Release 项目
+#        uses: dev-drprasad/delete-older-releases@v0.2.0
+#        with:
+#          repo: Mr-jiangrj/Redpill_Build
+#          keep_latest: 1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+#      - name: 上传引导镜像到 Github Actions
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{matrix.platform}} ${{matrix.version}}
+#          path: /home/runner/redpill-load/images/*.img
+#          if-no-files-found: error
