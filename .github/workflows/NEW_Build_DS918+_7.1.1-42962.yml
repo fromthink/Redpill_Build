@@ -55,6 +55,7 @@ jobs:
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
+          sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-boot-wait/rpext-index.json#https://github.com/pocopico/rp-ext/raw/main/redpill-boot-wait/rpext-index.json#g' ./bundled-exts.json
           sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/redpill-load/develop/redpill-virtio/rpext-index.json#g' ./bundled-exts.json
           mkdir -p ./config/DS918+/7.1.1-42962
           cp -r ./config/DS918+/7.0.1-42218/config.json ./config/DS918+/7.1.1-42962/config.json
