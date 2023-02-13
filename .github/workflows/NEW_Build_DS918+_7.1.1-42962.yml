@@ -50,11 +50,12 @@ jobs:
           cd /home/runner/redpill-load 
           ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/develop/redpill-acpid/rpext-index.json'
           ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
-          ./ext-manager.sh force_add thethorgroup.virtio 'https://raw.githubusercontent.com/pocopico/redpill-load/develop/redpill-virtio/rpext-index.json'
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/redpill-load/develop/redpill-virtio/rpext-index.json'
           
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
+          sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/redpill-load/develop/redpill-virtio/rpext-index.json#g' ./bundled-exts.json
           mkdir -p ./config/DS918+/7.1.1-42962
           cp -r ./config/DS918+/7.0.1-42218/config.json ./config/DS918+/7.1.1-42962/config.json
           sed -i 's/ds918p_42218/ds918p_42962/g' ./config/DS918+/7.1.1-42962/config.json
