@@ -54,6 +54,8 @@ jobs:
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
+          sed -i 's#file://localhost/root/DSM_DS923%2B_42962.pat#https://ghproxy.com/https://github.com/Mr-jiangrj/Redpill_Build/releases/download/PAT/DSM_DS923+_42962.pat#g' ./config/DS923+/7.1.1-42962/config.json
+          sed -i 's/a2bcfae34eda13f65bc7ee453b63bab982e2db9891a680968bc24ef5035ae8d8/426cebf745e5b4fb48c4fd2bbeb5c5d12c7245e96be44a1761715a872cb3dfd1/g' ./config/DS923+/7.1.1-42962/config.json
           sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds923p_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
