@@ -1,8 +1,8 @@
 name: 删除所有 Release 项目
 
 on:
-  schedule:
-    - cron: '30 16 * * *'
+#  schedule:
+#    - cron: '30 16 * * *'
   workflow_dispatch:
     inputs:
       clean_cache:
