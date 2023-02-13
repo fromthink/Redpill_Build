@@ -59,6 +59,7 @@ jobs:
           sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/redpill-load/develop/redpill-virtio/rpext-index.json#g' ./bundled-exts.json
           mkdir -p ./config/DS918+/7.1.1-42962
           cp -r ./config/DS918+/7.0.1-42218/config.json ./config/DS918+/7.1.1-42962/config.json
+          cp -r ./config/DS918+/7.0.1-42218/zImage-001-918p-42218-ramdisk-and-flag-NOP.bsp ./config/DS918+/7.1.1-42962/zImage-001-918p-42218-ramdisk-and-flag-NOP.bsp
           sed -i 's/ds918p_42218/ds918p_42962/g' ./config/DS918+/7.1.1-42962/config.json
           sed -i 's#https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_DS918%2B_42218.pat#https://ghproxy.com/https://github.com/Mr-jiangrj/Redpill_Build/releases/download/PAT/DSM_DS918+_42962_Update1.pat#g' ./config/DS918+/7.1.1-42962/config.json
           sed -i 's/a403809ab2cd476c944fdfa18cae2c2833e4af36230fa63f0cdee31a92bebba2/bd4ea562f88824d1d88caad912886f90b976c3f15040a170a6df6061cbf5e7d4/g' ./config/DS918+/7.1.1-42962/config.json
