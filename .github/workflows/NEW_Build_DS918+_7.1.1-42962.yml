@@ -64,6 +64,7 @@ jobs:
           sed -i 's#https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_DS918%2B_42218.pat#https://ghproxy.com/https://github.com/Mr-jiangrj/Redpill_Build/releases/download/PAT/DSM_DS918+_42962_Update1.pat#g' ./config/DS918+/7.1.1-42962/config.json
           sed -i 's/a403809ab2cd476c944fdfa18cae2c2833e4af36230fa63f0cdee31a92bebba2/bd4ea562f88824d1d88caad912886f90b976c3f15040a170a6df6061cbf5e7d4/g' ./config/DS918+/7.1.1-42962/config.json
           sed -i 's/338ba514066da01d0c1f770418916b9b96f5355d88a7b55b398d2726db591fdb/f372b5faaca87d852579df25fe1e9471fd346448ead932586ffd069e2dc4fb13/g' ./config/DS918+/7.1.1-42962/config.json
+          sed -i 's/4b7a7a271a3b2158d9193a4f0e75c59590949ad7b4e26d546f46cc2ee8504d51/01fa835229772cdf48be7aa473c029f5d12eefa77d3c6dba7c4f749157b9046b/g' ./config/DS918+/7.1.1-42962/config.json
           sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds918p_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
