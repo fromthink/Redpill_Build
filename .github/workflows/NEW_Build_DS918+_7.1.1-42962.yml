@@ -48,12 +48,14 @@ jobs:
       - name: 添加扩展驱动
         run: |
           cd /home/runner/redpill-load 
+          /ext-manager.sh delete thethorgroup.virtio
           ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/develop/redpill-acpid/rpext-index.json'
           ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
           
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
+          rm -rf ./redpill-virtio
           mkdir -p ./config/DS918+/7.1.1-42962
           cp -r ./config/DS918+/7.0.1-42218/config.json ./config/DS918+/7.1.1-42962/config.json
           sed -i 's/ds918p_42218/ds918p_42962/g' ./config/DS918+/7.1.1-42962/config.json
