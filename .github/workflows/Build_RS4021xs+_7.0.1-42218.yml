@@ -48,15 +48,13 @@ jobs:
       - name: 添加扩展驱动
         run: |
           cd /home/runner/redpill-load 
-          ./ext-manager.sh add 'https://github.com/jumkey/redpill-load/raw/develop/redpill-misc/rpext-index.json'
-          ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/develop/redpill-acpid/rpext-index.json'
-          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/igb/rpext-index.json'
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
           
       - name: 编译引导
         run: |
           cd /home/runner/redpill-load
           sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-boot-wait/rpext-index.json#https://github.com/pocopico/rp-ext/raw/main/redpill-boot-wait/rpext-index.json#g' ./bundled-exts.json
-          sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/redpill-load/develop/redpill-virtio/rpext-index.json#g' ./bundled-exts.json
+          sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/rp-ext/master/igb/rpext-index.json#g' ./bundled-exts.json
           sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=ds3622xsp_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
           
       - name: 上传引导镜像到 Github Releases
