@@ -1,0 +1,90 @@
+name: Build FS6400 7.0.1-42218
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      clean_cache:
+        description: 'Clear caches'
+        required: false
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 编译 "${{matrix.platform}} ${{matrix.version}}"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: FS6400
+            version: 7.0.1-42218
+
+    steps:
+      - name: 检出项目文件
+        uses: actions/checkout@v3
+        
+      - name: 获取当前时间
+        id: date
+        run: echo "::set-output name=today::$(date +'%Y-%m-%d')"
+        
+      - name: 获取项目描述
+        id: desc
+        run: |
+          wget https://raw.githubusercontent.com/Mr-jiangrj/Redpill_Build/main/README.MD -O /home/runner/desc.txt
+          echo "::set-output name=description::$(cat /home/runner/desc.txt)"
+        
+      - name: 环境准备
+        run: |
+          sudo apt update
+          sudo apt-get install -y curl bspatch jq git
+          git clone https://github.com/pocopico/redpill-load.git /home/runner/redpill-load
+          wget https://raw.githubusercontent.com/Mr-jiangrj/Redpill_Build/main/fs6400_user_config.json -O /home/runner/redpill-load/fs6400_user_config.json
+          wget https://raw.githubusercontent.com/pocopico/rp-ext/main/redpill/releases/redpill-4.4.180plus-broadwellnk.tgz
+          tar zxvf redpill-4.4.180plus-broadwellnk.tgz -C ./
+          mv ./redpill.ko /home/runner/redpill-load/ext/rp-lkm/redpill-linux-v4.4.180+.ko
+          
+      - name: 添加扩展驱动
+        run: |
+          cd /home/runner/redpill-load 
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/redpill-acpid/rpext-index.json'
+          ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/develop/redpill-misc/rpext-index.json'
+          
+      - name: 编译引导
+        run: |
+          cd /home/runner/redpill-load
+          sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-boot-wait/rpext-index.json#https://github.com/pocopico/rp-ext/raw/main/redpill-boot-wait/rpext-index.json#g' ./bundled-exts.json
+          sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/rp-ext/master/igb/rpext-index.json#g' ./bundled-exts.json
+          sed -i 's#https://global.synology.com/download/DSM/release/7.0.1/42218/DSM_RS4021xs%2B_42218.pat#https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_RS4021xs%2B_42218.pat#g' ./config/RS4021xs+/7.0.1-42218/config.json
+          sed -i 's/a72076b1a5c148e775e9542916e2f07fe18d8676dc7396ed69355a9a0a38b36c/2a32266b7bcf0b2582b5afd9e39dc444e7cb40eaf4ccfdbfedf4743af821f11c/g' ./config/RS4021xs+/7.0.1-42218/config.json
+          sed -i 's/17607e1739c8acc9903272ebd981bccb27b51057cdcb3cc446e5c5149db452d3/d6059bcd7160ed1f775a9323599ac8860b60ada32f0a4f3e5ca166c15a17784e/g' ./config/RS4021xs+/7.0.1-42218/config.json
+          sed -i 's/3aa9d810064747fca6d0a3ab4c979bd82b49fc0d166dfe714261c2a22145cc70/f2b99b4c05559376d34d30d6446c30a8b3f44f516e5a041299d03be9c7fd0095/g' ./config/RS4021xs+/7.0.1-42218/config.json
+          sudo BRP_JUN_MOD=1 BRP_DEBUG=1 BRP_USER_CFG=fs6400_user_config.json ./build-loader.sh '${{matrix.platform}}' '${{matrix.version}}'
+          
+      - name: 上传引导镜像到 Github Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: Redpill-load
+          name: ${{matrix.version}} Build ${{steps.date.outputs.today}}
+          body: ${{steps.desc.outputs.description}}
+          draft: false
+          prerelease: false
+          files: |
+            /home/runner/redpill-load/images/*.img
+            
+#      - name: 删除旧的 Release 项目
+#        uses: dev-drprasad/delete-older-releases@v0.2.0
+#        with:
+#          repo: Mr-jiangrj/Redpill_Build
+#          keep_latest: 1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+#      - name: 上传引导镜像到 Github Actions
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{matrix.platform}} ${{matrix.version}}
+#          path: /home/runner/redpill-load/images/*.img
+#          if-no-files-found: error
