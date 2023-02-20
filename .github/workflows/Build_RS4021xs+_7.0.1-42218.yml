@@ -56,7 +56,7 @@ jobs:
         run: |
           cd /home/runner/redpill-load
           rm -rf ./config/RS4021xs+/7.0.1-42218/config.json
-          wget 'https://github.com/Mr-jiangrj/Redpill_Build/raw/main/config.json' -o ./config/RS4021xs+/7.0.1-42218/config.json
+          wget https://github.com/Mr-jiangrj/Redpill_Build/raw/main/config.json -O ./config/RS4021xs+/7.0.1-42218/config.json
           sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-boot-wait/rpext-index.json#https://github.com/pocopico/rp-ext/raw/main/redpill-boot-wait/rpext-index.json#g' ./bundled-exts.json
           sed -i 's#https://github.com/jumkey/redpill-load/raw/develop/redpill-virtio/rpext-index.json#https://raw.githubusercontent.com/pocopico/rp-ext/master/igb/rpext-index.json#g' ./bundled-exts.json
           sed -i 's#https://global.synology.com/download/DSM/release/7.0.1/42218/DSM_RS4021xs%2B_42218.pat#https://global.download.synology.com/download/DSM/release/7.0.1/42218/DSM_RS4021xs%2B_42218.pat#g' ./config/RS4021xs+/7.0.1-42218/config.json
