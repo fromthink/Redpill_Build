@@ -2,12 +2,12 @@
     "extra_cmdline": {
         "pid": "0x0001",
         "vid": "0x46f4",
-        "sn": "2250T2RNT5DHH",
-        "mac1": "9009d082ED6A",
-	"mac2": "9009d082ED6B",
-	"mac3": "9009d082ED6C",
-	"mac4": "9009d082ED6D",
-	"mac5": "9009d082ED6E",
+        "sn": "1960PSN022807",
+        "mac1": "00113225B42A",
+	"mac2": "00113225B42B",
+	"mac3": "00113225B42C",
+	"mac4": "00113225B42D",
+	"mac5": "00113225B42E",
 	"netif_num": 7
     },
     "synoinfo": {
