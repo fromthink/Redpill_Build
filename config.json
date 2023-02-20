@@ -31,33 +31,21 @@
 	    "@@@COMMON@@@/ramdisk-004-network-hosts.patch"
         ]
     },
-    "synoinfo": {
-        "maxdisks": "24",
-		"support_bde_internal_10g": "no",
-		"support_disk_compatibility": "no",
-		"supportraidgroup": "no",
-		"support_syno_hybrid_raid": "yes",
-		"internalportcfg": "0xfffff",
-        "SasIdxMap": "0",
-        "esataportcfg": "0x00",
-        "rss_server": "http://example.com/null.xml",
-        "rss_server_ssl": "https://example.com/null.xml",
-        "small_info_path": "https://example.com/null",
-	"rss_server_v2": "https://example.com/autoupdate/v2/getList",
-	"security_version_server": "https://example.com/smallupdate",
-         "updateurl": "http://example.com/",
-	"update_server": "http://example.com/",
-	"update_server_ssl": "https//example.com/",
-        "myds_region_api_base_url": "https://example.com"
-    },
+
+  "synoinfo": {
+    "maxdisks": "25",
+    "internalportcfg": "0xffff",
+    "esataportcfg": "0x0",
+    "support_bde_internal_10g": "no",
+    "support_disk_compatibility": "no"
+  },
+	
     "grub": {
         "template": "@@@COMMON@@@/grub-template.conf",
         "base_cmdline": {
             "sn": "",
             "vid": "0x46f4",
             "pid": "0x0001",
-    	    "SataPortMap": "1", 
-            "DiskIdxMap": "0",
             "mac1": "",
             "netif_num": 4,
 
@@ -77,7 +65,7 @@
             "RedPill RS4021xs+ v7.0.1-42218 Beta (USB, Verbose)": {
                 "options": [
                     "savedefault",
-                    "set root=(hd0,msdos1)",
+                    "set root=(hd0,2)",
                     "echo Loading Linux...",
                     "linux /zImage @@@CMDLINE@@@",
                     "echo Loading initramfs...",
@@ -93,7 +81,7 @@
             "RedPill RS4021xs+ v7.0.1-42218 Beta (SATA, Verbose)": {
                 "options": [
                     "savedefault",
-                    "set root=(hd0,msdos1)",
+                    "set root=(hd0,2)",
                     "echo Loading Linux...",
                     "linux /zImage @@@CMDLINE@@@",
                     "echo Loading initramfs...",
