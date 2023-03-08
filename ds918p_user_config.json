@@ -1,18 +1,13 @@
 {
     "extra_cmdline": {
-        "pid": "0x0001",
-        "vid": "0x46f4",
-        "sn": "1980PDN012956",
-        "mac1": "0011328BDD81",
-	"mac2": "0011328BDD82",
-	"mac3": "0011328BDD83",
-	"mac4": "0011328BDD84",
-	"netif_num": 7
+        "pid": "0x0902",
+        "vid": "0x1F75",
+        "sn": "1890PDN939815",
+        "mac1": "0011329A5BDF",
+        "mac2": "0011329A5BDE",
+        "netif_num": "2"
     },
-    "synoinfo": {
-	"internalportcfg": "0xffff",
-	"maxlanport": "7"
-    },
+    "synoinfo": {},
     "ramdisk_copy": {},
     "extensions": []
 }
