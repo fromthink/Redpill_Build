@@ -53,6 +53,7 @@ jobs:
           ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/main/dtb-patch/rpext-index.json'
           ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
           ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/main/r8125/rpext-index.json'
+          ./ext-manager.sh add 'https://raw.githubusercontent.com/tossp/redpill-tool-chain/master/extensions/redpill-virtio.json'
           
       - name: 编译引导
         run: |
